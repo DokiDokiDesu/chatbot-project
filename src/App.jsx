@@ -1,4 +1,3 @@
-import "./App.css";
 import ChatInput from "./components/ChatInput";
 import { useState, useRef, useEffect } from "react";
 import RobotProfileImage from "./assets/robot.png";
@@ -7,7 +6,7 @@ import UserProfileImage from "./assets/user.png";
 function App() {
   const [chatMessages, setChatMessages] = useState([]);
   return (
-    <div className="app-container">
+    <div className="min-h-screen w-screen flex flex-col justify-center items-center">
       <ChatMessages
         chatMessages={chatMessages}
         setChatMessages={setChatMessages}
@@ -37,11 +36,14 @@ function ChatMessage({ message, sender }) {
 
   return (
     <div
-      className={sender === "user" ? "chat-message-user" : "chat-message-robot"}
+      className={
+        sender === "user" ? "flex justify-end items-start" : "flex items-start"
+      }
     >
       {sender === "robot" && <img src={RobotProfileImage} width="50" />}
-
-      <div className="chat-message-text">{message}</div>
+      <div className="bg-[rgb(238,238,238)] text-black font-[Arial] px-5 py-3 rounded-[10px] mt-2 mx-2">
+        {message}
+      </div>
       {sender === "user" && <img src={UserProfileImage} width="50" />}
     </div>
   );
@@ -59,7 +61,10 @@ function ChatMessages({ chatMessages, _setChatMessages }) {
   }, [chatMessages]);
 
   return (
-    <div className="js-chat-messages" ref={chatMessagesRef}>
+    <div
+      className="w-[450px] flex-grow mt-5 overflow-y-scroll scrollbar-hide"
+      ref={chatMessagesRef}
+    >
       {chatMessages.map((msg, i) => (
         <ChatMessage key={i} message={msg.message} sender={msg.sender} />
       ))}
